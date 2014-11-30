@@ -16,6 +16,7 @@ public class CarResource {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String carInfo() throws IOException {
+		SocketCarConnector.getInstance().send("carInfo");
 		return SocketCarConnector.getInstance().getCarStatus().toString();
 	}
 

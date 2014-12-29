@@ -32,6 +32,11 @@
 		<button type="button" onclick="moveRightClick()">Right</button>									   
 		<button type="button" onclick="toggleStream()">toggleStream</button>
 		<button type="button" onclick="carInfo()">car info</button>
+		</br>
+		<button type="button" onclick="cameraLeft()">Camera Left</button>
+		<button type="button" onclick="cameraRight()">Camera Right</button>
+		<button type="button" onclick="cameraUp()">Camera up</button>
+		<button type="button" onclick="cameraCentre()">Camera Centre</button>
 	</div>
 	<br>
 	<div id="info"></div>
@@ -152,10 +157,27 @@
 			printLog(response);
 		});
 	};
+	function cameraLeft(){
+		command("cleft");
+	};
+	function cameraRight(){
+		command("cright");
+	};
+	function cameraUp(){
+		command("cup");
+	};
+	function cameraCentre(){
+		command("ccentre");
+	};
+	function command(command) {
+		httpPost("http://" + carIp + "/car/command", function(response) {
+			printLog(response);
+		},command);
+	};
 	function printLog(message) {
 		document.getElementById('info').innerHTML = message;
 	};
-	function httpPost(url, cfunc) {
+	function httpPost(url, cfunc,content) {
 		if (isReady) {
 			var xmlhttp;
 			if (window.XMLHttpRequest) {
@@ -169,7 +191,13 @@
 				}
 			};
 			xmlhttp.open("POST", url, true);
-			xmlhttp.send();
+			xmlhttp.setRequestHeader("Content-Type","text/plain");
+			if(content!=null){
+				xmlhttp.send(content);
+			}else{
+				xmlhttp.send();
+			}
+			
 		}
 	};
 	function httpGet(url, cfunc) {

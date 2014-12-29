@@ -2,6 +2,7 @@ package com.yufu.wificarserver.resources;
 
 import java.io.IOException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -58,6 +59,15 @@ public class CarResource {
 	public String toggleStream() throws IOException {
 		SocketCarConnector.getInstance().send("toggleStream");
 		return "post received";
+	}
+	
+	@Path("/command")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String command(String command) throws IOException {
+		SocketCarConnector.getInstance().send(command);
+		return "command "+command +" received";
 	}
 
 }
